@@ -2,9 +2,10 @@ import React ,{useState} from "react";
 import FormattedDate from "./FormattedDate";
 import axios from "axios";
 import "./Weather.css"
+
 export default function Weather(props){
-  
   const[weatherData,setWeatherData]=useState({ready:false});
+  const[city,setCity]=useState(props.defaultCity);
   function handleResponse(response){
     console.log(response.data);
     setWeatherData(
@@ -21,10 +22,26 @@ export default function Weather(props){
   }
     );
   }
+  function search(){
+const apiKey = "6d3703b72o71t1f333cdff4cea0c9774";
+
+let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+axios.get(apiUrl).then(handleResponse);
+  }
+  function handleSubmit(event){
+
+    event.preventDefault();
+    search();
+  }
+  function handleCityChange(event){
+    setCity(event.target.value);
+    
+
+  }
   if(weatherData.ready){
     return (
       <div className="Weather">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-8">
               <input
@@ -32,6 +49,7 @@ export default function Weather(props){
                 placeholder="Enter a city.."
                 className="form-control"
                 autoFocus="on"
+                onChange={handleCityChange}
               />
             </div>
             <div className="col-4">
@@ -69,7 +87,7 @@ export default function Weather(props){
           </div>
           <div className="col-6">
             <ul>
-              <li>Precipitation:15%</li>
+              
               <li>Humidity:{weatherData.humidity}%</li>
               <li>Wind:{weatherData.wind} km/h</li>
             </ul>
@@ -78,10 +96,8 @@ export default function Weather(props){
       </div>
     );}
     else{
-      const apiKey = "6d3703b72o71t1f333cdff4cea0c9774";
-  
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${props.defaultCity}&key=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(handleResponse);
+      search();
     return"Loading...";
+    
 }
 }
