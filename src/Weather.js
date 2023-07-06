@@ -1,5 +1,6 @@
 import React ,{useState} from "react";
 import FormattedDate from "./FormattedDate";
+import WeatherTemperature from "./WeatherTemperature";
 import axios from "axios";
 import "./Weather.css"
 
@@ -80,16 +81,13 @@ axios.get(apiUrl).then(handleResponse);
                 className="float-left"
               ></img>
               <div className="float-left">
-                <span className="temperature float-left">
-                  {Math.round(weatherData.temperature)}
-                </span>{" "}
-                <span className="unit">°C</span>
+              <WeatherTemperature celcius={weatherData.temperature} />
+                
               </div>
             </div>
           </div>
           <div className="col-6">
             <ul>
-              
               <li>Humidity:{weatherData.humidity}%</li>
               <li>Wind:{weatherData.wind} km/h</li>
             </ul>
