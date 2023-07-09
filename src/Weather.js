@@ -1,6 +1,7 @@
 import React ,{useState} from "react";
 import FormattedDate from "./FormattedDate";
 import WeatherTemperature from "./WeatherTemperature";
+import WeatherForecast from "./WeatherForecast";
 import axios from "axios";
 import "./Weather.css"
 
@@ -93,6 +94,7 @@ axios.get(apiUrl).then(handleResponse);
             </ul>
           </div>
         </div>
+        <WeatherForecast />
       </div>
     );}
     else{
