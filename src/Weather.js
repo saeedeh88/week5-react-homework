@@ -10,21 +10,17 @@ export default function Weather(props){
   const[city,setCity]=useState(props.defaultCity);
   function handleResponse(response){
     console.log(response.data);
-    setWeatherData(
-
-    {
-      ready:true,
-      temperature:response.data.temperature.current,
-      date:new Date(response.data.time*1000),
-      wind:response.data.wind.speed,
-      city:response.data.city,
-      description:response.data.condition.description,
-      humidity:response.data.temperature.humidity,
-      iconUrl:response.data.condition.icon_url,
-      
-      
-  }
-    );
+    setWeatherData({
+      ready: true,
+      coordinates: response.data.coordinates,
+      temperature: response.data.temperature.current,
+      date: new Date(response.data.time * 1000),
+      wind: response.data.wind.speed,
+      city: response.data.city,
+      description: response.data.condition.description,
+      humidity: response.data.temperature.humidity,
+      iconUrl: response.data.condition.icon_url,
+    });
   }
   function search(){
 const apiKey = "6d3703b72o71t1f333cdff4cea0c9774";
@@ -82,8 +78,7 @@ axios.get(apiUrl).then(handleResponse);
                 className="float-left"
               ></img>
               <div className="float-left">
-              <WeatherTemperature celcius={weatherData.temperature} />
-                
+                <WeatherTemperature celcius={weatherData.temperature} />
               </div>
             </div>
           </div>
@@ -94,7 +89,8 @@ axios.get(apiUrl).then(handleResponse);
             </ul>
           </div>
         </div>
-        <WeatherForecast />
+        <WeatherForecast coordinates={weatherData.coordinates} />
+        
       </div>
     );}
     else{
